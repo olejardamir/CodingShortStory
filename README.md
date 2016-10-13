@@ -6,7 +6,7 @@ Now, imagine that instead of hamsters, we are using humans, and instead of elect
 Simply by browsing the Internet, data from each individual is collected and transformed in such a way that will yield a wider gap between the distribution of wealth and resources among the citizens, benefiting narrow and targeted groups or individuals.
 
 This program is supposed to trick such a system by browsing the Internet to bring a loss instead of a profit to a system.
-It is equivalent to a DDOS attack, but instead of attacking the servers, the code is attacking the data collecting by giving it damaging data in real-time.
+It is equivalent to a DDOS attack, but instead of attacking the servers, the code is attacking data collecting by giving it damaging data in real-time.
 
 All you have to do is to enter your starting URL, a random sentence you like, and an indice you would like to track real-time.
 You can also enter the URLs from your browsing history and confuse the system even further.
