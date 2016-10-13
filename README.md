@@ -12,6 +12,6 @@ All you have to do is to enter your starting URL, a random sentence you like, an
 You can also enter the URLs from your browsing history and confuse the system even further.
 
 
-You can run this program while browsing the Internet, so you can make sure that you are safe from the data-collecting machines. What will happen in the most cases, your IP will be ignored, your browsing data will be stacked as a history and it will make less sense more you use this program.
+You can run this program while browsing the Internet, so you can make sure that you are safe from the data-collecting machines. What will happen in the most cases, your IP will be ignored, you will have a temporary ban and your data will not be considered relevant, your browsing data will be stacked as a history and it will make less sense more you use this program.
 
 I hope you like this story, any enhancements and proposals to a code are welcomed!
