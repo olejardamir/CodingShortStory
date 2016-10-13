@@ -5,7 +5,7 @@ This is a fiction code made in Java. Imagine a society where electricity is gene
 Now, imagine that instead of hamsters, we are using humans, and instead of electricity, we are generating data that is collected for one single purpose: To gain profit on the expense of everyone.
 Simply by browsing the Internet, data from each individual is collected and transformed in such a way that will yield a wider gap between the distribution of wealth and resources among the citizens by benefiting targeted groups.
 
-This program is supposed to trick such a system by browsing the Internet to bring a loss instead of a profit to such a system.
+This program is supposed to trick such a system by browsing the Internet to bring a loss instead of a profit to a system.
 It is equivalent to a DDOS attack, but instead of attacking the servers, the code is attacking the data collection by giving it damaging data in real-time.
 
 All you have to do is to enter the starting URL, a random sentence you like, and an indice you would like to track real-time.
