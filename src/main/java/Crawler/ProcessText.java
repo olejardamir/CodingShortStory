@@ -19,8 +19,17 @@ import java.io.IOException;
 public class ProcessText {
 private Document doc;
 private StringBuffer sb;
+private StringBuffer bestsb;
+private double score = 0;
+private String bestSentence = null;
+private String bestURL = null;
+private String currentURL;
+private String[] bestURLs;
+
+    public ProcessText(){}
 
     public ProcessText(String url) throws IOException {
+        currentURL = url;
         doc = Jsoup.connect(url)
                 .data("query", "Java")
                 .userAgent("Mozilla")
@@ -31,35 +40,57 @@ private StringBuffer sb;
         getText();
     }
 
-    public String findClosestSentence(String sentence) throws ClassifierException {
-        String[] lines = sb.toString().split("\\n");
-        double distance = 0;
 
+    public String getBestSentence(){return this.bestSentence;}
+    public String getBestURL(){return this.bestURL;}
+    public String[] getBestURLs(){return this.bestURLs;}
+    public StringBuffer getBestText(){return this.bestsb;}
+
+    public void changeURL(String url)throws IOException {
+        currentURL = url;
+        doc = Jsoup.connect(url)
+                .data("query", "Java")
+                .userAgent("Mozilla")
+                .cookie("auth", "token")
+                .timeout(3000)
+                .post();
+
+        getText();
+    }
+
+    public void findClosestSentence(String sentence) throws ClassifierException {
+        String[] lines = sb.toString().split("\\n");
 
         TermVectorStorage storage = new HashMapTermVectorStorage();
         VectorClassifier vc = new VectorClassifier(storage);
 
         vc.teachMatch(sentence);
 
-        String ret = null;
         for(String s: lines){
             if(s.length()>10 && s.length()<60){
-               double result = vc.classify("category", "hello blah");
-                if(result>distance){ret = s; distance=result;}
+               double result = vc.classify("category", s);
+                if(result>score){
+                    bestSentence = s;
+                    score=result;
+                    if(bestURL!=currentURL) {
+                        bestURL = currentURL;
+                        getLinks();
+                        bestsb = sb;
+                    }
+                }
             }
 
         }
-        return ret;
     }
 
-    public String[] getLinks() {
+    private void getLinks() {
         Elements links = doc.select("a[href]");
         String[] ret = new String[links.size()];
         for (int i = 0; i < links.size(); i++) {
             Element link = links.get(i);
             ret[i] = link.attr("abs:href");
         }
-        return ret;
+        bestURLs = ret;
     }
 
 
