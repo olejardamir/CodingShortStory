@@ -27,7 +27,7 @@ public class Start {
             //The program is now tracking the average price (bid+ask)/2
             int change = parse.bidChange();
             //If there is no change, there is no need to do anything, which is also harmful but not as negative change
-            //If there is negative change, the program does the same thing
+            //If there is negative change, the program does the same thing as with no change
             //If there is a positive change, the program changes the sentence and/or chooses another URL (from a history.txt)
             if(change==-1){
                 //TODO read each page from URL stack as text

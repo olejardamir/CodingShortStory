@@ -1,4 +1,4 @@
-
+package SentenceParser;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -14,7 +14,7 @@ private ArrayList<String> abbr = new ArrayList<String>();
 public parser(){
 
     try {
-    	BufferedReader br = new BufferedReader(new FileReader("abbEngl"));
+    	BufferedReader br = new BufferedReader(new FileReader("./Data/abbEngl"));
         String line = br.readLine();
         while (line != null) {
            abbr.add(line);
@@ -29,8 +29,62 @@ public parser(){
 }
 
 
+public StringBuffer parseDocToStringBuffer(String input){
 
-public void parseDoc(String input, String output){
+	try {
+		BufferedReader br = new BufferedReader(new FileReader(input));
+		StringBuffer fw = new StringBuffer();
+
+		String line = br.readLine();
+		while (line != null) {
+
+
+			String[] splitline = line.split(" ",-1);
+			for (int t=0;t<splitline.length;t++){
+				String word = splitline[t];
+
+				if (word.startsWith("\'") || word.startsWith("\"")  ){
+					word = word.substring(1,word.length());
+				}
+				if (word.endsWith("\'") || word.endsWith("\"")  ){
+					word = word.substring(0, word.length()-1);
+				}
+				if (word.endsWith("\'.") || word.endsWith("\".")  ){
+					word = word.substring(0, word.length()-2);
+					word=word+".";
+				}
+				if (word.endsWith("\'!") || word.endsWith("\"!")  ){
+					word = word.substring(0, word.length()-2);
+					word=word+"!";
+				}
+				if (word.endsWith("\'?") || word.endsWith("\"?")  ){
+					word = word.substring(0, word.length()-2);
+					word=word+"?";
+				}
+
+				if (word.length()>1 && !word.endsWith(".") && !word.endsWith("!") && !word.endsWith("?") && !abbr.contains(word)){
+					fw.append(word+" ");
+				}
+				else if (word.length()>1 && !abbr.contains(word)){fw.append(word+System.getProperty("line.separator"));}
+				else if (word.length()>0){fw.append(word+" ");}
+
+			}
+
+
+
+			line = br.readLine();
+		}
+		br.close();
+		return fw;
+	}
+	catch (Exception e) {
+		System.out.println("Error parsing the "+input+" file.");
+	}
+	return null;
+}
+
+
+public void parseDocToFile(String input, String output){
 
     try {
     	BufferedReader br = new BufferedReader(new FileReader(input));
@@ -44,21 +98,21 @@ public void parseDoc(String input, String output){
         	for (int t=0;t<splitline.length;t++){
         		String word = splitline[t];
         		
-        		if (word.startsWith("\'") || word.startsWith("\"") || word.startsWith("“") || word.startsWith("‘")){
+        		if (word.startsWith("\'") || word.startsWith("\"")  ){
 					word = word.substring(1,word.length());
 					}
-        		if (word.endsWith("\'") || word.endsWith("\"") || word.endsWith("”") || word.endsWith("’")){
+        		if (word.endsWith("\'") || word.endsWith("\"")  ){
 					word = word.substring(0, word.length()-1);
         		}
-        		if (word.endsWith("\'.") || word.endsWith("\".") || word.endsWith("”.") || word.endsWith("’.")){
+        		if (word.endsWith("\'.") || word.endsWith("\".")  ){
 					word = word.substring(0, word.length()-2);
 					word=word+".";
         		}
-        		if (word.endsWith("\'!") || word.endsWith("\"!") || word.endsWith("”!") || word.endsWith("’!")){
+        		if (word.endsWith("\'!") || word.endsWith("\"!")  ){
 					word = word.substring(0, word.length()-2);
 					word=word+"!";
         		}
-        		if (word.endsWith("\'?") || word.endsWith("\"?") || word.endsWith("”?") || word.endsWith("’?")){
+        		if (word.endsWith("\'?") || word.endsWith("\"?")  ){
 					word = word.substring(0, word.length()-2);
 					word=word+"?";
         		}
