@@ -29,17 +29,27 @@ private String[] bestURLs;
     public ProcessText(){}
 
     public ProcessText(String url) throws IOException {
+        doc = new Document(url);
+        sb = new StringBuffer();
+        bestsb = new StringBuffer();
         currentURL = url;
         doc = Jsoup.connect(url)
                 .data("query", "Java")
                 .userAgent("Mozilla")
                 .cookie("auth", "token")
-                .timeout(3000)
-                .post();
+                .timeout(300)
+                .get();
 
         getText();
     }
 
+    public void reset(){
+        bestsb = null;
+        score = 0;
+        bestSentence = null;
+        bestURL = null;
+        String[] bestURLs = null;
+    }
 
     public String getBestSentence(){return this.bestSentence;}
     public String getBestURL(){return this.bestURL;}
@@ -47,27 +57,34 @@ private String[] bestURLs;
     public StringBuffer getBestText(){return this.bestsb;}
 
     public void changeURL(String url)throws IOException {
-        currentURL = url;
-        doc = Jsoup.connect(url)
-                .data("query", "Java")
-                .userAgent("Mozilla")
-                .cookie("auth", "token")
-                .timeout(3000)
-                .post();
 
-        getText();
+        if (doc==null){doc = new Document(url);}
+        try {
+            if (url != null && !url.equals("null")) {
+                currentURL = url;
+                doc = Jsoup.connect(url)
+                        .data("query", "Java")
+                        .userAgent("Mozilla")
+                        .cookie("auth", "token")
+                        .timeout(30000)
+                        .get();
+
+                getText();
+            }
+        }catch(Exception ex){}
     }
 
     public void findClosestSentence(String sentence) throws ClassifierException {
-        String[] lines = sb.toString().split("\\n");
+        if(sb==null || sentence==null || sentence.length()<1){return;}
+        String[] lines = sb.toString().split("\n");
 
         TermVectorStorage storage = new HashMapTermVectorStorage();
         VectorClassifier vc = new VectorClassifier(storage);
 
-        vc.teachMatch(sentence);
+        vc.teachMatch("category", sentence);
 
         for(String s: lines){
-            if(s.length()>10 && s.length()<60){
+            if(s.length()>10 && s.length()<500){
                double result = vc.classify("category", s);
                 if(result>score){
                     bestSentence = s;

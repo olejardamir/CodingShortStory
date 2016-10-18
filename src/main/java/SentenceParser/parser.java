@@ -32,14 +32,12 @@ public parser(){
 public StringBuffer parseDocToStringBuffer(String input){
 
 	try {
-		BufferedReader br = new BufferedReader(new FileReader(input));
 		StringBuffer fw = new StringBuffer();
 
-		String line = br.readLine();
-		while (line != null) {
 
 
-			String[] splitline = line.split(" ",-1);
+
+			String[] splitline = input.split(" ",-1);
 			for (int t=0;t<splitline.length;t++){
 				String word = splitline[t];
 
@@ -68,13 +66,10 @@ public StringBuffer parseDocToStringBuffer(String input){
 				else if (word.length()>1 && !abbr.contains(word)){fw.append(word+System.getProperty("line.separator"));}
 				else if (word.length()>0){fw.append(word+" ");}
 
-			}
 
 
 
-			line = br.readLine();
 		}
-		br.close();
 		return fw;
 	}
 	catch (Exception e) {

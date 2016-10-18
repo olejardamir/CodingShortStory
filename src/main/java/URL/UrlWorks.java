@@ -22,14 +22,23 @@ public class UrlWorks {
     }
 
     public void appendURL(String url) throws IOException {
-        urls.add(url);
-        BufferedWriter write = new BufferedWriter(new FileWriter("./Data/history.txt",true));
-        write.write(url+"\n");
-        write.close();
+        try {
+            if(url!=null && !url.contains("null")) {
+                urls.add(url);
+                BufferedWriter write = new BufferedWriter(new FileWriter("./Data/history.txt", true));
+                write.write(url + "\n");
+                write.close();
+            }
+        }catch (Exception e){e.printStackTrace();}
     }
 
     public String[] getRandomUrls(int n){
-        if(n>=urls.size()){return (String[])urls.toArray();} //in case there is less urls than requested
+        if(n>=urls.size()){
+            String[] ret = new String[urls.size()];
+            while(urls.contains(null)){urls.remove(urls.indexOf(null));}
+            for(int t=0;t<urls.size();t++){ret[t]=urls.get(t);}
+            return ret;
+        } //in case there is less urls than requested
 
         ArrayList<String> tmp = new ArrayList<String>();
         while(tmp.size()<n){
@@ -37,10 +46,23 @@ public class UrlWorks {
             if(!tmp.contains(rndurl)){tmp.add(rndurl);}
         }
 
-        return (String[])tmp.toArray();
+
+        //fix
+        while(tmp.contains(null)){tmp.remove(tmp.indexOf(null));}
+        String[] ret = new String[tmp.size()];
+        for(int t=0;t<tmp.size();t++){ret[t]=tmp.get(t);}
+
+        return ret;
     }
 
 
-
-
+    public void appendURLs(String[] urls) throws IOException {
+        if(urls!=null) {
+            for (String s : urls) {
+                if (s != null) {
+                    appendURL(s);
+                }
+            }
+        }
+    }
 }

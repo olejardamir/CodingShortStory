@@ -14,8 +14,24 @@ private Random rnd = new Random();
         String[] sp = sentence.split(" ");
         String ret = "";
         for(String s:sp){
-            if(rnd.nextBoolean()){ret = ret+" "+frequency.getRandomWord();}
-            else{ret = ret+" "+s;}
+            String rw = frequency.getRandomWord();
+
+            if(rnd.nextBoolean()){ //skip or not?
+
+            }
+            else{
+                if(rnd.nextBoolean()){//mutate or not?
+                    ret = ret+" "+rw;
+                }
+                else{
+                    ret = ret+" "+s;
+                }
+            }
+
+            if(rnd.nextBoolean() && ret.length()<500){ //add new or not
+                ret = ret +" "+rw;
+            }
+
         }
         return ret.trim();
     }
